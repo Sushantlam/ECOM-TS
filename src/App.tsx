@@ -1,22 +1,20 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Home from './Pages/Home'
 import Cart from './Pages/Cart'
 import Login from './Pages/Login'
 import { AuthContext } from './context/Auth';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import Thankyou from './Pages/Thankyou';
+import { DarkContext } from './context/ThemeContext';
 
 const App = () => {
   
-  const ProtectedRoute = ({ children }:{children:React.ReactNode}) => {
-    const { state } = useContext(AuthContext);
+  const { themeState, dispatch } = useContext(DarkContext);
 
-    if (state.user.length === 0) {
-      return <Navigate to="/login" />;
-    }
-
-    return  <>{children}</>;
-  };
+  // function logOut() {
+  //   localStorage.clear();
+  //   router("login");
+  // }
   return (
   <>
       
@@ -46,7 +44,7 @@ const App = () => {
         </Routes>
       </BrowserRouter> */}
 
-      <div>
+      <div id={themeState.theme}>
         <BrowserRouter>
         <Routes>
           <Route path="/">
@@ -54,9 +52,9 @@ const App = () => {
             <Route
               index
               element={
-                <ProtectedRoute>
+               
                   <Home />
-                </ProtectedRoute>
+               
               }
             />
             </Route>
@@ -65,9 +63,9 @@ const App = () => {
               <Route
                 index
                 element={
-                  <ProtectedRoute>
+                
                     <Cart/>
-                  </ProtectedRoute>
+                 
                 }
               />
               </Route>
@@ -76,9 +74,9 @@ const App = () => {
               <Route
                 index
                 element={
-                  <ProtectedRoute>
+               
                     <Thankyou/>
-                  </ProtectedRoute>
+                 
                 }
               />
               </Route>

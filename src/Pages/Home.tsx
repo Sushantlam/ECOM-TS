@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../context/Product';
 import Navbar from '../Componenet/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
 
@@ -61,8 +62,20 @@ useEffect(() => {
    
   }, [])
   
+
+  const user = localStorage.getItem("userName");
+  const userData = user ? JSON.parse(user) : null;
+  const navigate = useNavigate()
+ 
+
   function handleAdd(e:dataType){
-    dispatch({type:"ADD ITEM", payload :e})
+
+    if(!!userData){
+      dispatch({type:"ADD ITEM", payload :e})
+    }else{
+      navigate("/login")
+    }
+   
    
     
     
@@ -77,7 +90,7 @@ useEffect(() => {
    
 <section className="text-gray-600 body-font">
   <div className="container px-10  mx-auto">
-    <div className='flex justify-between py-5'>
+    <div className='flex flex-col gap-5 my-5 sm:flex sm:flex-row sm:justify-between sm:py-5'>
 
     <div className='flex flex-col'>
   <label htmlFor="">Filter By Price <h3> Rs. {price}</h3></label>

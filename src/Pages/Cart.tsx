@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { CartContext } from "../context/Product";
 import Navbar from "../Componenet/Navbar";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { state, dispatch } = useContext(CartContext);
-  console.log(state.totalQuantity);
-  console.log(state.totalPrice);
 
   const navigate = useNavigate()
 
@@ -24,8 +22,19 @@ const Cart = () => {
     images: string[];
   };
 
+
+  const user = localStorage.getItem("userName");
+  const userData = user ? JSON.parse(user) : null;
+
+ 
+
   function Increment(data: dataType) {
-    dispatch({ type: "Increment", payload: data });
+    if(userData){
+      dispatch({ type: "Increment", payload: data });
+    }else{
+      navigate("/")
+    }
+    
   }
 
   function Decrement(data: dataType) {
@@ -49,7 +58,7 @@ const Cart = () => {
   return (
     <div>
       <Navbar />
-      <div>
+      <div className="min-h-[100vh]">
         {state.product.length === 0 ? (
           <div>
             <h3 className=" text-2xl text-center py-10 font-extrabold">
@@ -59,7 +68,7 @@ const Cart = () => {
           </div>
         ) : (
 
-          <div className="flex gap-4 p-6 w-[100vw] ">
+          <div className=" flex flex-col gap-5 sm:flex sm:flex-row sm:gap-4 sm:p-6 sm:w-[100vw] ">
           <div className="flex flex-col justify-between gap-5 p-4  min-w-[50%]" >
             {state.product.map((item) => (
               <div className=" max-w-[100%]"  key={item.id}>
@@ -88,8 +97,8 @@ const Cart = () => {
             </div>
 
                </div>
-          <div className=" min-w-[50%]">
-            <div className="flex flex-col min-h[1000px] border-2 rounded-lg max-w-[70%] justify-between gap-7 p-5">
+          <div className=" w-full sm:min-w-[50%]">
+            <div className="sm:flex sm:flex-col sm:min-h[1000px] sm:border-2 w-full border-2 ml-2 mr-10 px-3 flex flex-col gap-4 py-5 sm:rounded-lg sm:max-w-[70%] sm:justify-between sm:gap-7 sm:p-5">
               <h3 className=" text-3xl font-bold text-gray-800">Summary of cart</h3>
               <h2  className=" text-2xl font-bold text-gray-800">Total Product : {state.totalQuantity}</h2>
               <h2 className=" text-2xl font-bold text-gray-800">Total Product : {state.totalPrice}</h2>

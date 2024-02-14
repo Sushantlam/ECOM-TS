@@ -6,9 +6,19 @@ type userType={
     error: string|null
 }
 
+type loginFailType={
+   user: [],
+   error: string
+}
+
 type login={
     type:'login',
     payload:userType[]
+}
+
+type loginFail={
+    type:'loginFail',
+    payload:loginFailType[]
 }
 
 
@@ -16,7 +26,7 @@ type logout={
     type:'logout',
 }
 
-type actionType = login| logout
+type actionType = login|logout|loginFail
 
 const initialState:userType ={
     user:JSON.parse(localStorage.getItem('token' )|| '[]'),
@@ -35,17 +45,23 @@ const AuthReducer =(state:userType,action:actionType)=>{
     switch (action.type) {
         case 'login' :
             return{
-                ...state,
-                user: action.payload,
-
+               user:action.payload,
+               error:null
             }
+
+            case 'loginFail' :
+                return{
+                   user:[],
+                   error:action.payload.length > 0 ? action.payload[0].error : null
+                }
 
             case 'logout' :
                 return{
-                    ...state,
+                   error:null,
                     user: [],
     
                 }
+
            
     
         default:

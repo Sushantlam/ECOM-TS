@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CartProvider } from './context/Product';
 import { AuthProvider } from './context/Auth';
+import { DarkContextProvider } from './context/ThemeContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
       <AuthProvider>
     <CartProvider>
+    <DarkContextProvider>
     <App />
+    </DarkContextProvider>
     </CartProvider>
     </AuthProvider>
   </React.StrictMode>

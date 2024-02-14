@@ -78,6 +78,8 @@ export const CartContext = createContext<{
 const cartReducer=(state:InitialType, action:actionType):InitialType=>{
     switch (action.type) {
         case "ADD ITEM":
+
+        
         
         const findItem = state.product.find((e) => e.id === action.payload.id);
         if (findItem) {
